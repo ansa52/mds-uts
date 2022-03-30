@@ -53,20 +53,12 @@ data["startDateLocal"][is.na(data["startDateLocal"])] <- Sys.Date()
 #insert data to database
 #make connection to database
 
-tryCatch({
-  drv <- dbDriver("PostgreSQL")
-  print("Connecting to Database.")
-  con <- dbConnect(drv,
-                 dbname = Sys.getenv("STRAVA_ELEPHANT_SQL_DBNAME"), 
-                 host = Sys.getenv("STRAVA_ELEPHANT_SQL_HOST"),
+con <- dbConnect(drv,
+                 dbname = Sys.getenv("KBOT_ELEPHANT_SQL_DBNAME"), 
+                 host = Sys.getenv("KBOT_ELEPHANT_SQL_HOST"),
                  port = 5432,
-                 user = Sys.getenv("STRAVA_ELEPHANT_SQL_USER"),
-                 password = Sys.getenv("STRAVA_ELEPHANT_SQL_PASSWORD"))
-  print("Database Connected!")
-},
-error=function(cond) {
-  print("Unable to connect to Database.")
-}
+                 user = Sys.getenv("KBOT_ELEPHANT_SQL_USER"),
+                 password = Sys.getenv("KBOT_ELEPHANT_SQL_PASSWORD")
 )
 
 query <- 'SELECT MAX("id") FROM "public"."activity" '
