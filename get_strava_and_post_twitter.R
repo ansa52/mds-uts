@@ -52,7 +52,7 @@ data["startDateLocal"][is.na(data["startDateLocal"])] <- Sys.Date()
 
 #insert data to database
 #make connection to database
-
+drv <- dbDriver("PostgreSQL")
 con <- dbConnect(drv,
                  dbname = Sys.getenv("KBOT_ELEPHANT_SQL_DBNAME"), 
                  host = Sys.getenv("KBOT_ELEPHANT_SQL_HOST"),
