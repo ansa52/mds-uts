@@ -1,0 +1,57 @@
+# This is a basic workflow that is manually triggered
+
+name: Manual workflow
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+  
+jobs:
+  publish-manual:
+  runs-on: macOS-latest
+  env:
+      STRAVA_ELEPHANT_SQL_DBNAME: ${{ secrets.STRAVA_ELEPHANT_SQL_DBNAME }}
+      STRAVA_ELEPHANT_SQL_HOST: ${{ secrets.STRAVA_ELEPHANT_SQL_HOST }}
+      STRAVA_ELEPHANT_SQL_USER: ${{ secrets.STRAVA_ELEPHANT_SQL_USER }}
+      STRAVA_ELEPHANT_SQL_PASSWORD: ${{ secrets.STRAVA_ELEPHANT_SQL_PASSWORD }}
+      STRAVA_TWITTER_CONSUMER_API_KEY: ${{ secrets.STRAVA_TWITTER_CONSUMER_API_KEY }}
+      STRAVA_TWITTER_CONSUMER_API_SECRET: ${{ secrets.STRAVA_TWITTER_CONSUMER_API_SECRET }}
+      STRAVA_TWITTER_ACCESS_TOKEN: ${{ secrets.STRAVA_TWITTER_ACCESS_TOKEN }}
+      STRAVA_TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.STRAVA_TWITTER_ACCESS_TOKEN_SECRET }}
+      STRAVA_ID : ${{ secrets.STRAVA_ID }}
+      
+      steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@master
+      - name: Install rvest package
+        run: Rscript -e 'install.packages("rvest", dependencies = TRUE)'
+      - name: Install xml2 package
+        run: Rscript -e 'install.packages("xml2", dependencies = TRUE)'
+      - name: Install jsonlite package
+        run: Rscript -e 'install.packages("jsonlite", dependencies = TRUE)'
+      - name: Install rtweet package
+        run: Rscript -e 'install.packages("rtweet", dependencies = TRUE)'
+      - name: Install tidyverse package
+        run: Rscript -e 'install.packages("tidyverse", dependencies = TRUE)'
+      - name: Install ggplot2 package
+        run: Rscript -e 'install.packages("ggplot2", dependencies = TRUE)'
+      - name: Install gganimate package
+        run: Rscript -e 'install.packages("gganimate", dependencies = TRUE)'
+      - name: Install RPostgreSQL package
+        run: Rscript -e 'install.packages("RPostgreSQL", dependencies = TRUE)'
+      - name: Create and post tweet
+        run: Rscript get_strava_and_post_twitter.R
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "greet"
+  greet:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Runs a single command using the runners shell
+    - name: Send greeting
+      run: echo "Hello ${{ github.event.inputs.name }}"
